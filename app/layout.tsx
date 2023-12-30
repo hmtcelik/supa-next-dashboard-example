@@ -20,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={GeistSans.className}>
-      <body className="h-full">{children}</body>
+      <body className="h-full dark:bg-gray-900">{children}</body>
       <PrelineScript />
     </html>
   );
