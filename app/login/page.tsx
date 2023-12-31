@@ -167,6 +167,9 @@ export default function Login({
 
             {/* End Form */}
           </div>
+          {searchParams.message && (
+            <p className="text-red-500 text-xs mt-2">{searchParams.message}</p>
+          )}
         </div>
       </div>
     </main>

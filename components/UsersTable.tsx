@@ -1,30 +1,12 @@
-"use client";
-
 import Client from "@/services/Client";
-import { User } from "@supabase/auth-helpers-nextjs";
-import { useEffect, useState } from "react";
 
-const UsersTable = () => {
+const UsersTable = async () => {
   const supabase = Client.createSupaClient();
-  const [data, setData] = useState<User[]>([]);
-  const [isError, setError] = useState(false);
+  const { data: users, error } = await supabase.auth.admin.listUsers();
 
-  console.log(supabase.auth.admin.listUsers());
-
-  const getUsers = async () => {
-    const { data: users, error } = await supabase.auth.admin.listUsers();
-    if (error) return setError(true);
-    setError(false);
-    setData(users.users);
-  };
-
-  const deleteUser = async (id: string) => {
-    const { data: users, error } = await supabase.auth.admin.deleteUser(id);
-  };
-
-  useEffect(() => {
-    getUsers();
-  }, []);
+  // const deleteUser = async (id: string) => {
+  //   const { data: users, error } = await supabase.auth.admin.deleteUser(id);
+  // };
 
   return (
     <div className="flex flex-col">
@@ -61,7 +43,7 @@ const UsersTable = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                {data.map((user) => (
+                {users.users.map((user) => (
                   <tr>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
                       {user.email}
@@ -70,7 +52,7 @@ const UsersTable = () => {
                       {user.role}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                      {user.last_sign_in_at}
+                      {user.last_sign_in_at || "Never"}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
                       <button
