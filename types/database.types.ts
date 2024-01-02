@@ -10,4 +10,15 @@ export interface Database {
   public: {
     Tables: {};
   };
+  auth: {
+    Tables: {
+      users: {
+        id: string;
+        email: string;
+        role: string;
+        created_at: string;
+        updated_at: string;
+      };
+    };
+  };
 }

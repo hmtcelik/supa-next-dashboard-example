@@ -3,11 +3,21 @@ import Session from "@/services/server/Session";
 
 export async function GET() {
   await Session.protectRoute();
+  const currentSession = await Session.get();
 
   const { data: users, error } = await supaAdmin.auth.admin.listUsers();
 
-  if (error) {
-    throw new Error(error.message);
+  if (currentSession?.user.role !== "superuser") {
+    // should be getting with from db but this is a demo so we'll just filter
+    const filteredData = users.users.filter(
+      (user) => user.role !== "superuser"
+    );
+    users.users = filteredData;
+
+    return Response.json({
+      users,
+      error,
+    });
   }
 
   return Response.json({
@@ -30,10 +40,6 @@ export async function POST(req: Request) {
       redirectTo: `${process.env.NEXT_PUBLIC_DOMAIN}/login`,
     }
   );
-
-  if (error) {
-    throw new Error(error.message);
-  }
 
   return Response.json({
     user,
