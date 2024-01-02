@@ -25,7 +25,7 @@ const deleteId = async (id: string) => {
 };
 
 const current = async () => {
-  const res = await fetch("/api/session");
+  const res = await fetch("/api/session/");
 
   const { session, error } = await res.json();
 
@@ -36,4 +36,19 @@ const current = async () => {
   return session;
 };
 
-export default { all, deleteId, current };
+const create = async (email: string, role: string) => {
+  const res = await fetch("/api/users", {
+    method: "POST",
+    body: JSON.stringify({ email, role }),
+  });
+
+  const { session, error } = await res.json();
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return session;
+};
+
+export default { all, deleteId, current, create };

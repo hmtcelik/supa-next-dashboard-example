@@ -2,6 +2,7 @@ import { Database } from "@/types/database.types";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { supaAdmin } from "./Client";
 
 const protectRoute = async () => {
   const supabase = createServerComponentClient<Database>({
@@ -50,4 +51,14 @@ const get = async () => {
   return null;
 };
 
-export default { protectRoute, protectAdminRoute, get };
+const verifyToken = async (token: string) => {
+  const user = await supaAdmin.auth.getUser(token);
+
+  if (user.error !== null) {
+    return null;
+  }
+
+  return user;
+};
+
+export default { protectRoute, protectAdminRoute, get, verifyToken };
