@@ -1,10 +1,9 @@
 import BusinessCreateForm from "@/components/Business/BusinessCreateForm";
-import UserCreateForm from "@/components/User/UserCreateForm";
-import { protectAdminRoute } from "@/services/Session";
+import { protectRoute } from "@/services/Session";
 
 // read ?message query param here
 const UserCreatePage = async () => {
-  await protectAdminRoute();
+  await protectRoute();
 
   return (
     <div>
