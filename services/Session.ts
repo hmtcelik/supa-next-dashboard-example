@@ -1,8 +1,10 @@
+'use server'
+
 import { Database } from "@/types/database.types";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { supaAdmin } from "./Client";
+import { createSupaAdminClient } from "./Client";
 
 const protectRoute = async () => {
   const supabase = createServerComponentClient<Database>({
@@ -35,7 +37,7 @@ const protectAdminRoute = async () => {
   redirect("/login");
 };
 
-const get = async () => {
+const getSession = async () => {
   const supabase = createServerComponentClient<Database>({
     cookies,
   });
@@ -52,7 +54,7 @@ const get = async () => {
 };
 
 const verifyToken = async (token: string) => {
-  const user = await supaAdmin.auth.getUser(token);
+  const user = await createSupaAdminClient().auth.getUser(token);
 
   if (user.error !== null) {
     return null;
@@ -61,4 +63,4 @@ const verifyToken = async (token: string) => {
   return user;
 };
 
-export default { protectRoute, protectAdminRoute, get, verifyToken };
+export { getSession, protectAdminRoute, protectRoute, verifyToken };

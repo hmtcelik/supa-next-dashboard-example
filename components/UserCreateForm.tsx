@@ -1,6 +1,6 @@
 "use client";
 
-import UserService from "@/services/client/User";
+import { createUser } from "@/services/User";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 
@@ -12,13 +12,13 @@ const UserCreateForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
-  const createUser = (e: FormEvent<HTMLFormElement>) => {
+  const submitUser = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setIsLoading(true);
-    UserService.create(email, role)
+    createUser(email, role)
       .then((res) => {
-        router.push("/users");
+        router.push("/users?message=User%20Created%20Successfully!");
       })
       .catch((error) => {
         setError(error);
@@ -29,7 +29,7 @@ const UserCreateForm = () => {
   };
 
   return (
-    <form onSubmit={createUser}>
+    <form onSubmit={submitUser}>
       <div className="flex flex-col gap-5">
         <div>
           <label

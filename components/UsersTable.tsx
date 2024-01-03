@@ -3,9 +3,9 @@
 import { Session, User } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
 import DeletePopup from "./DeletePopup";
-import UserService from "@/services/client/User";
+import { deleteUserFromId, getAllUsers, getCurrentUser } from "@/services/User";
 
-const UsersTable = () => {
+const UsersTable = ({ message }: { message: string }) => {
   const [data, setData] = useState<User[]>([]);
   const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -13,12 +13,12 @@ const UsersTable = () => {
 
   const getUsers = () => {
     setIsLoading(true);
-    UserService.all()
-      .then((users) => {
-        setData(users);
+    getAllUsers()
+      .then((res) => {
+        setData(res.users);
       })
-      .catch((error) => {
-        setError(error);
+      .catch((err) => {
+        setError(err);
       })
       .finally(() => {
         setIsLoading(false);
@@ -26,14 +26,14 @@ const UsersTable = () => {
   };
 
   const deleteUser = (id: string) => {
-    UserService.deleteId(id).then(() => {
+    deleteUserFromId(id).then(() => {
       // remove user from state so it doesn't need to be fetched again
       setData(data.filter((user) => user.id !== id));
     });
   };
 
-  const getCurrentUser = () => {
-    UserService.current().then((session: Session | null) => {
+  const handleCurrentUser = () => {
+    getCurrentUser().then((session: Session | null) => {
       if (session) {
         setIsSuperUser(session.user.role === "superuser");
       }
@@ -42,7 +42,7 @@ const UsersTable = () => {
 
   useEffect(() => {
     getUsers();
-    getCurrentUser();
+    handleCurrentUser();
   }, []);
 
   if (isLoading) {
@@ -125,7 +125,7 @@ const UsersTable = () => {
         </div>
       </div>
       {error?.message && (
-        <div className="flex items-center justify-center h-screen">
+        <div className="flex items-center justify-start mt-6">
           <p className="text-red-500">{error.message}</p>
         </div>
       )}

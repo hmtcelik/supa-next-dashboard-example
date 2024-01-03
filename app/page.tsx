@@ -1,10 +1,10 @@
 import SideBar from "@/components/SideBar";
-import Session from "@/services/server/Session";
+import { getSession, protectRoute } from "@/services/Session";
 
 export default async function Index() {
-  await Session.protectRoute();
+  await protectRoute();
 
-  const session = await Session.get();
+  const session = await getSession();
 
   return (
     <SideBar>

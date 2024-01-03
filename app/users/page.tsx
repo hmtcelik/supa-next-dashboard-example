@@ -1,12 +1,16 @@
 import SideBar from "@/components/SideBar";
 import UsersTable from "@/components/UsersTable";
-import Session from "@/services/server/Session";
+import { getSession, protectRoute } from "@/services/Session";
 import Link from "next/link";
 
-const UsersPage = async () => {
-  await Session.protectRoute();
+const UsersPage = async ({
+  searchParams,
+}: {
+  searchParams: { message: string };
+}) => {
+  await protectRoute();
 
-  const session = await Session.get();
+  const session = await getSession();
 
   return (
     <>
@@ -23,7 +27,7 @@ const UsersPage = async () => {
           )}
         </Link>
       </div>
-      <UsersTable />
+      <UsersTable message={searchParams.message} />
     </>
   );
 };
