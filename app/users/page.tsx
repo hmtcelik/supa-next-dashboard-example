@@ -1,5 +1,5 @@
-import SideBar from "@/components/SideBar";
-import UsersTable from "@/components/UsersTable";
+import SideBar from "@/components/Nav/SideBar";
+import UsersTable from "@/components/User/UsersTable";
 import { getSession, protectRoute } from "@/services/Session";
 import Link from "next/link";
 

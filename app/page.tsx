@@ -1,4 +1,4 @@
-import SideBar from "@/components/SideBar";
+import SideBar from "@/components/Nav/SideBar";
 import { getSession, protectRoute } from "@/services/Session";
 
 export default async function Index() {

@@ -1,6 +1,6 @@
 'use server'
 
-import { Database } from "@/types/database.types";
+import { Database } from "@/types/database-generated.types";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";

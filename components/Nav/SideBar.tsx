@@ -2,6 +2,7 @@ import Link from "next/link";
 import { IStaticMethods } from "preline/preline";
 import React from "react";
 import LogoutButton from "./LogoutButton";
+
 declare global {
   interface Window {
     HSStaticMethods: IStaticMethods;

@@ -2,7 +2,7 @@
 
 import { Session, User } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
-import DeletePopup from "./DeletePopup";
+import DeletePopup from "../DeletePopup";
 import { deleteUserFromId, getAllUsers, getCurrentUser } from "@/services/User";
 
 const UsersTable = ({ message }: { message: string }) => {

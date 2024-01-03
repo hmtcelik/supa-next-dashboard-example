@@ -1,24 +1,14 @@
-export type Json =
-  | string
-  | number
-  | boolean
-  | null
-  | { [key: string]: Json | undefined }
-  | Json[];
+import { MergeDeep } from 'type-fest'
+import { Database as DatabaseGenerated } from './database-generated.types'
+export { type Json } from './database-generated.types'
 
-export interface Database {
-  public: {
-    Tables: {};
-  };
-  auth: {
-    Tables: {
-      users: {
-        id: string;
-        email: string;
-        role: string;
-        created_at: string;
-        updated_at: string;
-      };
-    };
-  };
-}
+// Override the type for a specific column in a view:
+export type Database = MergeDeep<
+  DatabaseGenerated,
+  {
+    public: {
+      Views: {
+      }
+    }
+  }
+>

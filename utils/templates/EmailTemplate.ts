@@ -1,9 +1,9 @@
 
 export const WelcomeEmailTemplate = async (email:string, password:string) => {
     return `
-    <h1>
+    <h2>
         Welcome to Supa-Admin! 
-    </h1>
+    </h2>
     <br>
     <p>
         Your account informations are here:

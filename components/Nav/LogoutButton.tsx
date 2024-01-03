@@ -1,13 +1,12 @@
 "use client";
 
-import { Database } from "@/types/database.types";
+import { Database } from "@/types/database-generated.types";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 import React from "react";
 
 const LogoutButton = () => {
   const supabase = createClientComponentClient<Database>();
-
   const router = useRouter();
 
   return (
