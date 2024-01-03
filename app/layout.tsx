@@ -1,5 +1,6 @@
 import { GeistSans } from "geist/font/sans";
 import "./globals.css";
+import NextTopLoader from "nextjs-toploader";
 
 import PrelineScript from "@/components/PrelineScript";
 
@@ -20,7 +21,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={GeistSans.className}>
-      <body className="h-full dark:bg-gray-900">{children}</body>
+      <body className="h-full dark:bg-gray-900">
+        <NextTopLoader showSpinner={false} />
+        {children}
+      </body>
       <PrelineScript />
     </html>
   );
