@@ -4,6 +4,7 @@ import { WelcomeEmailTemplate } from "@/utils/templates/EmailTemplate";
 import { createSupaAdminClient, } from "./Client";
 import sendEmail from "./Email";
 import { getSession } from "./Session";
+import { User } from "@supabase/supabase-js";
 
 const getAllUsers = async () => {
   const currentSession = await getSession();
@@ -23,6 +24,41 @@ const getAllUsers = async () => {
   }
   return users
 };
+
+type UserRatio = {
+  role: string,
+  ratio: number
+}
+
+const getUserRoleRatio = async () => {
+  const { data: users, error } = await createSupaAdminClient().auth.admin.listUsers();
+
+  if (error){
+    throw new Error(error.message);
+  }
+
+  // find user hundred percentage ratio (%60) based on roles
+  // example: [{role: "admin", ratio: 60}, {role: "user", ratio: 40}]
+  const userRoles = ["superuser", "admin"];
+  const userRatio :UserRatio[] = [];
+  let total = 0;
+  
+  users.users.forEach((user:User) => {
+    if (!user.role) return;
+    if (userRoles.includes(user.role)) total++;
+  });
+  
+  userRoles.forEach((role) => {
+    const ratio = Math.round((users.users.filter((user) => user.role === role).length /    total) * 100);
+    userRatio.push({ role, ratio });
+  });
+
+  return {
+    labels: userRatio.map((role) => role.role),
+    data: userRatio.map((role) => role.ratio),
+  };
+
+}
 
 const deleteUserFromId = async (id: string) => {
   const { error } = await createSupaAdminClient().auth.admin.deleteUser(id);
@@ -66,5 +102,5 @@ const createUser = async (email: string, role: string) => {
   return true
 };
 
-export { createUser, deleteUserFromId, getAllUsers, getCurrentUser };
+export { createUser, deleteUserFromId, getAllUsers, getCurrentUser, getUserRoleRatio };
 

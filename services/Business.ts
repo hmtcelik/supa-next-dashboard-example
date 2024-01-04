@@ -2,10 +2,10 @@
 
 import { Tables } from "@/types/database-generated.types";
 import { randomUUID } from "crypto";
-import { createSupaClient } from "./Client";
+import { createSupaClient, createSupaServerClient } from "./Client";
 
 const getAllBusinesses = async () => {
-  const supabase = createSupaClient();
+  const supabase = createSupaServerClient();
   const { data: businesses, error } = await supabase
     .from("business")
     .select("*")

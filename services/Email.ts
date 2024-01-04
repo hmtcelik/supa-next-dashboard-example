@@ -9,9 +9,6 @@ export default async function sendEmail(
   subject: string,
   text: string,
 ) {
-  console.log("hi")
-  console.log(process.env.EMAIL_EMAIL)
-  console.log(process.env.EMAIL_PASS)
 
   const transporter = nodemailer.createTransport({
     service: "gmail",

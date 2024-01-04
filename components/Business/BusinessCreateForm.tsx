@@ -27,7 +27,7 @@ const BusinessCreateForm = () => {
     setIsLoading(true);
     createBusiness(formData)
       .then((res) => {
-        router.push("/users?message=User%20Created%20Successfully!");
+        router.push("/businesses?message=User%20Created%20Successfully!");
       })
       .catch((error) => {
         setError(error);

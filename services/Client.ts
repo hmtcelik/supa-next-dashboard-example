@@ -17,4 +17,12 @@ const createSupaClient = () => {
   return createClient<Database>(supabaseUrl, annonKey);
 };
 
-export { createSupaAdminClient, createSupaClient };
+const createSupaServerClient = () => {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+  const serviceKey = process.env.SUPA_SERVICE_KEY || "";
+
+  return createClient(supabaseUrl, serviceKey);
+}
+
+
+export { createSupaAdminClient, createSupaClient, createSupaServerClient };

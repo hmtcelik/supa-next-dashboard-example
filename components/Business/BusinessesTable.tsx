@@ -10,6 +10,8 @@ const BussinessTable = ({ message }: { message: string }) => {
   const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  console.log(data);
+
   const getBussinesses = () => {
     setIsLoading(true);
     getAllBusinesses()
