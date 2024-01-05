@@ -24,5 +24,6 @@ const createSupaServerClient = () => {
   return createClient(supabaseUrl, serviceKey);
 }
 
+const StoragePath = 'https://ssshexeyjxuvwphruzlh.supabase.co/storage/v1/object/public'
 
 export { createSupaAdminClient, createSupaClient, createSupaServerClient };

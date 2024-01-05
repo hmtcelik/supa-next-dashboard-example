@@ -15,8 +15,6 @@ const getAllBusinesses = async () => {
     throw new Error(error.message);
   }
 
-  console.log(businesses);
-
   return businesses;
 };
 
@@ -47,18 +45,16 @@ const createBusiness = async (formData: FormData) => {
     });
 
   if (storageError) {
-    console.error(storageError);
     throw new Error(storageError.message);
   }
 
   const { data: business, error } = await supabase
     .from("business")
-    .insert({ name, file_path: storage.path })
+    .insert({ name, file_path: filename })
     .select()
     .returns<Tables<"business">>();
 
   if (error) {
-    console.log(error);
     await supabase.storage.from("business").remove([storage.path]);
     throw new Error(error.message);
   }

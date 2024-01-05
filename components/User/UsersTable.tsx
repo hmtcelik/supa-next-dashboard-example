@@ -104,7 +104,9 @@ const UsersTable = ({ message }: { message: string }) => {
                         {user.role}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                        {user.last_sign_in_at || "Never"}
+                        {user.last_sign_in_at
+                          ? new Date(user.last_sign_in_at).toLocaleString()
+                          : "Never"}
                       </td>
                       {isSuperUser && (
                         <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">

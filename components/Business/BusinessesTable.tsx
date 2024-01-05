@@ -4,6 +4,8 @@ import { deleteBusinessFromId, getAllBusinesses } from "@/services/Business";
 import { Tables } from "@/types/database-generated.types";
 import { useEffect, useState } from "react";
 import DeletePopup from "../DeletePopup";
+import Image from "next/image";
+import Link from "next/link";
 
 const BussinessTable = ({ message }: { message: string }) => {
   const [data, setData] = useState<Tables<"business">[]>([]);
@@ -72,6 +74,12 @@ const BussinessTable = ({ message }: { message: string }) => {
                     </th>
                     <th
                       scope="col"
+                      className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase"
+                    >
+                      Created At
+                    </th>
+                    <th
+                      scope="col"
                       className="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase"
                     >
                       Action
@@ -79,26 +87,44 @@ const BussinessTable = ({ message }: { message: string }) => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                  {data.map((item) => (
-                    <tr key={item.id}>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                        {item.name}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
-                        {item.file_path}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                        <button
-                          type="button"
-                          className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                        >
-                          <DeletePopup
-                            onClick={() => deleteBusiness(item.id)}
-                          />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
+                  {data.map((item) => {
+                    const bucketRootPath =
+                      "https://ssshexeyjxuvwphruzlh.supabase.co/storage/v1/object/public/business/";
+
+                    return (
+                      <tr key={item.id}>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                          {item.name}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-xs italic text-gray-800 dark:text-gray-200">
+                          <Link
+                            href={`${bucketRootPath}${item.file_path}`}
+                            target="_blank"
+                          >
+                            <img
+                              className="w-32 h-28"
+                              src={`${bucketRootPath}${item.file_path}`}
+                            />
+                          </Link>
+                          <span></span>
+                          Click to preview
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                          {new Date(item.created_at).toLocaleString()}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
+                          <button
+                            type="button"
+                            className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                          >
+                            <DeletePopup
+                              onClick={() => deleteBusiness(item.id)}
+                            />
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
