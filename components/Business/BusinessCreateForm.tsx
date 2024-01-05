@@ -27,7 +27,7 @@ const BusinessCreateForm = () => {
     setIsLoading(true);
     createBusiness(formData)
       .then((res) => {
-        router.push("/businesses?message=User%20Created%20Successfully!");
+        router.push("/businesses?message=Business%20Created%20Successfully!");
       })
       .catch((error) => {
         setError(error);
@@ -85,7 +85,7 @@ const BusinessCreateForm = () => {
           <button
             type="button"
             className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-gray-600 text-white hover:bg-gray-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-white-600"
-            onClick={() => router.push("/users")}
+            onClick={() => router.push("/businesses")}
           >
             Cancel
           </button>
