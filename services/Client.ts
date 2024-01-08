@@ -26,4 +26,13 @@ const createSupaServerClient = () => {
 
 const StoragePath = 'https://ssshexeyjxuvwphruzlh.supabase.co/storage/v1/object/public'
 
-export { createSupaAdminClient, createSupaClient, createSupaServerClient };
+const createFetch =
+  (options: Pick<RequestInit, "next" | "cache">) =>
+  (url: RequestInfo | URL, init?: RequestInit) => {
+    return fetch(url, {
+      ...init,
+      ...options,
+    });
+  };
+
+export { createSupaAdminClient, createSupaClient, createSupaServerClient, createFetch };

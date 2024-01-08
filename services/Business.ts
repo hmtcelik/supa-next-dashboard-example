@@ -2,10 +2,26 @@
 
 import { Tables } from "@/types/database-generated.types";
 import { randomUUID } from "crypto";
-import { createSupaClient, createSupaServerClient } from "./Client";
+import { createFetch, createSupaClient, createSupaServerClient } from "./Client";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { Database } from "@/types/database.types";
 
 const getAllBusinesses = async () => {
-  const supabase = createSupaServerClient();
+  const supabase = createClientComponentClient<Database>(
+    {
+      supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
+      supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+      options: {
+        global:{
+          fetch: createFetch(
+            {
+              cache:"no-store"
+            }
+          )
+        }
+      },
+    }
+  );
   const { data: businesses, error } = await supabase
     .from("business")
     .select("*")

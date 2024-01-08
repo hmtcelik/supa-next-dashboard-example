@@ -6,13 +6,13 @@ import { useEffect, useState } from "react";
 import DeletePopup from "../DeletePopup";
 import Image from "next/image";
 import Link from "next/link";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { Database } from "@/types/database.types";
 
 const BussinessTable = ({ message }: { message: string }) => {
   const [data, setData] = useState<Tables<"business">[]>([]);
   const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  console.log(data);
 
   const getBussinesses = () => {
     setIsLoading(true);
