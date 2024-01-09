@@ -2,6 +2,8 @@
 
 This is an example of how to use Supabase with Next.js 14 (App dir) and TailwindCSS.
 
+## PREVIEW LINK = https://supa-next-dashboard-example.vercel.app/
+
 ## Usage
 
 #### 1. Intsallation
