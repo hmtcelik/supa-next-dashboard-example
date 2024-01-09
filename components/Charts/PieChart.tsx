@@ -10,27 +10,36 @@ type PieChartProps = {
 };
 
 const PieChart = (props: PieChartProps) => {
-  const options = {
+  const options: ApexCharts.ApexOptions = {
     title: {
       text: props.title,
       style: {
         color: "gray",
+      },
+      align: "center",
+    },
+    chart: {
+      width: "100%",
+      toolbar: {
+        show: false,
       },
     },
     labels: props.labels,
     responsive: [
       {
         breakpoint: 480,
+        options: {
+          legend: {
+            position: "bottom",
+          },
+        },
       },
     ],
-    legend: {
-      labels: {
-        colors: "gray",
-      },
+    markers: {
+      size: 5,
     },
-    colors: ["#FF1654", "#247BA0", "#70C1B3", "#B2DBBF", "#F3FFBD"],
-    stroke: {
-      colors: [],
+    legend: {
+      position: "bottom",
     },
   };
 
@@ -40,8 +49,8 @@ const PieChart = (props: PieChartProps) => {
         options={options}
         series={props.series}
         type="pie"
-        width={"100%"}
-        height={400}
+        width="100%"
+        height={450}
       />
     </div>
   );

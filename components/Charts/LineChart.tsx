@@ -16,9 +16,13 @@ const LineChart = (props: LineChartProps) => {
       style: {
         color: "gray",
       },
+      align: "center",
     },
     chart: {
       width: "100%",
+      toolbar: {
+        show: false,
+      },
     },
     labels: props.labels,
     responsive: [
