@@ -3,6 +3,7 @@ import "./globals.css";
 import NextTopLoader from "nextjs-toploader";
 
 import PrelineScript from "@/components/PrelineScript";
+import { cookies } from "next/headers";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -19,8 +20,9 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const theme = cookies().get("theme");
   return (
-    <html lang="en" className={GeistSans.className}>
+    <html lang="en" className={theme?.value || ""}>
       <body className="h-full dark:bg-gray-900">
         <NextTopLoader showSpinner={false} />
         {children}

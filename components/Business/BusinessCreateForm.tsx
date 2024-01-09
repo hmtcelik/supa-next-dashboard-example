@@ -50,7 +50,7 @@ const BusinessCreateForm = () => {
           <input
             type="text"
             id="input-label"
-            className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-700 dark:border-gray-500 dark:text-gray-400 dark:focus:ring-gray-600"
+            className="py-3 px-4 block w-full border rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-700 dark:border-gray-500 dark:text-gray-400 dark:focus:ring-gray-600"
             placeholder="some business"
             onChange={(e) => setName(e.target.value)}
             required

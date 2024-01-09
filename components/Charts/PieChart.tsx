@@ -21,14 +21,6 @@ const PieChart = (props: PieChartProps) => {
     responsive: [
       {
         breakpoint: 480,
-        options: {
-          chart: {
-            width: 200,
-          },
-          legend: {
-            position: "bottom",
-          },
-        },
       },
     ],
     legend: {
@@ -48,8 +40,8 @@ const PieChart = (props: PieChartProps) => {
         options={options}
         series={props.series}
         type="pie"
-        width={500}
-        height={320}
+        width={"100%"}
+        height={400}
       />
     </div>
   );

@@ -1,6 +1,7 @@
 "use server";
 
 import { Database } from "@/types/database-generated.types";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { createClient } from "@supabase/supabase-js";
 
 const createSupaAdminClient = () => {
@@ -22,9 +23,24 @@ const createSupaServerClient = () => {
   const serviceKey = process.env.SUPA_SERVICE_KEY || "";
 
   return createClient(supabaseUrl, serviceKey);
-}
+};
 
-const StoragePath = 'https://ssshexeyjxuvwphruzlh.supabase.co/storage/v1/object/public'
+const StoragePath =
+  "https://ssshexeyjxuvwphruzlh.supabase.co/storage/v1/object/public";
+
+const createSupaClientClient = () => {
+  return createClientComponentClient<Database>({
+    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    options: {
+      global: {
+        fetch: createFetch({
+          cache: "no-store",
+        }),
+      },
+    },
+  });
+};
 
 const createFetch =
   (options: Pick<RequestInit, "next" | "cache">) =>
@@ -35,4 +51,9 @@ const createFetch =
     });
   };
 
-export { createSupaAdminClient, createSupaClient, createSupaServerClient, createFetch };
+export {
+  createSupaAdminClient,
+  createSupaClient,
+  createSupaServerClient,
+  createSupaClientClient,
+};

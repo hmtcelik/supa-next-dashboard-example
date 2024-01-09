@@ -2,26 +2,14 @@
 
 import { Tables } from "@/types/database-generated.types";
 import { randomUUID } from "crypto";
-import { createFetch, createSupaClient, createSupaServerClient } from "./Client";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { Database } from "@/types/database.types";
+import {
+  createSupaClient,
+  createSupaClientClient,
+  createSupaServerClient,
+} from "./Client";
 
 const getAllBusinesses = async () => {
-  const supabase = createClientComponentClient<Database>(
-    {
-      supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
-      supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-      options: {
-        global:{
-          fetch: createFetch(
-            {
-              cache:"no-store"
-            }
-          )
-        }
-      },
-    }
-  );
+  const supabase = createSupaClientClient();
   const { data: businesses, error } = await supabase
     .from("business")
     .select("*")
@@ -78,4 +66,51 @@ const createBusiness = async (formData: FormData) => {
   return business;
 };
 
-export { createBusiness, deleteBusinessFromId, getAllBusinesses };
+const getBusinessRatiosGivenMonth = async (monthIdx: number) => {
+  // NOTE: this is a view in the database
+  // -- CREATE view business_ratio as SELECT COUNT(*) total, (created_at::date) as createdDate FROM business GROUP BY created_at::date;
+
+  let startDate = new Date(new Date().getFullYear(), monthIdx, 1);
+  let endDate;
+  if (monthIdx === 11) {
+    endDate = new Date(new Date().getFullYear() + 1, 0, 1);
+  } else {
+    endDate = new Date(new Date().getFullYear(), monthIdx + 1, 1);
+  }
+
+  const supabase = createSupaClientClient();
+  const { data: ratios, error } = await supabase
+    .from("business_ratio")
+    .select("*")
+    .gte("createddate", startDate.toISOString())
+    .lt("createddate", endDate.toISOString())
+    .returns<Tables<"business_ratio">[]>();
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  const results: {
+    totals: number[];
+    dates: string[];
+  } = {
+    totals: [],
+    dates: [],
+  };
+
+  ratios.forEach((ratio) => {
+    if (ratio.createddate) {
+      results.totals.push(ratio?.total || 0);
+      results.dates.push(ratio?.createddate);
+    }
+  });
+
+  return results;
+};
+
+export {
+  createBusiness,
+  deleteBusinessFromId,
+  getAllBusinesses,
+  getBusinessRatiosGivenMonth,
+};
